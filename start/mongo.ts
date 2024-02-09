@@ -15,7 +15,7 @@ async function connectToMongoDB() {
     }
 }
 
-connectToMongoDB();
+// connectToMongoDB();
 
 // const uri = Env.get('MONGODB_CONNECTION_URI');
 // mongoose.connect(uri, {
