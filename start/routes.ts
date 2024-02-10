@@ -1,16 +1,7 @@
-/*
-|--------------------------------------------------------------------------
-| Routes file
-|--------------------------------------------------------------------------
-|
-| The routes file is used for defining the HTTP routes.
-|
-*/
-
-// import UsersController from '#controllers/UsersController'
 import router from '@adonisjs/core/services/router'
+const HomeController = () => import('#controllers/home_controller')
 
-const UsersController = () => import('#controllers/users_controller')
+router.get('/', [HomeController, 'index'])
+router.get('/create', [HomeController, 'create'])
+router.get('/search', [HomeController, 'search'])
 
-router.on('/').render('pages/home')
-router.get('/test', [UsersController, 'index'])

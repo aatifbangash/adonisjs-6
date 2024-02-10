@@ -404,7 +404,13 @@ display: -webkit-inline-box;
   margin-top: 32px;
   /* max-width: 500px; */
 }
-
+#suggestionsContainer div {
+  /* background-color: red; */
+  margin-bottom: 3px;
+}
+#suggestionsContainer div a {
+  text-decoration: none;
+}
 .hero-search input {
   width: 100%;
   max-width: 628px;

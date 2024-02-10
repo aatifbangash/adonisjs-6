@@ -26,7 +26,6 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-
           <div class="pad-med">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -844,22 +843,63 @@
 // List of available blog URLs
     var blogURLs = ["camp-lejeune","cpap", "lawsuit-blog", "paraquat", "roundup-lawsuit"];
     var matchingURLs = [];
+    var debounceTimer;
+    var suggestionsContainer = document.getElementById('suggestionsContainer');
+
+    // Add a click event listener to the document
+    document.addEventListener('click', function (event) {
+      var isClickInsideElement = suggestionsContainer.contains(event.target);
+
+      if (!isClickInsideElement) {
+        suggestionsContainer.innerHTML = "";
+      }
+    });
 
     function showSuggestions() {
+
+        clearTimeout(debounceTimer);
         var searchQuery = document.getElementById('searchInput').value.toLowerCase();
-        var suggestionsContainer = document.getElementById('suggestionsContainer');
+        
 
-        // Filter blog URLs based on the presence of any matching word in the search query
-        matchingURLs = blogURLs.filter(url => searchQuery.split(/\s+/).some(word => url.toLowerCase().includes(word)));
+        debounceTimer = setTimeout(function() {
+          $.ajax({ 
+            url: '/search', 
+            data: { query: searchQuery }, 
+            method: 'GET', 
+            success: function(response) { 
+              suggestionsContainer.innerHTML = "";
+              if(response) {
+                matchingURLs = response.map(object => object.title);
+                var suggestionsHTML = matchingURLs.map(url => {
+                  const highlightedText = highlightMatchingText(url, searchQuery);
+                  return `<div style="margin-left: 12px;" onclick="selectSuggestion('${url}')"><a href="#">${highlightedText}</a></div>`
+                }).join('');
+                suggestionsContainer.innerHTML = suggestionsHTML;
+              }
+            } 
+          });
+        }, 500);
+    }
 
-        // Generate HTML for suggestions
-        var suggestionsHTML = matchingURLs.map(url => `<div style="margin-left: 12px;" onclick="selectSuggestion('${url}')">${url}</div>`).join('');
+    function highlightMatchingText(text, query) {
+      const lowercasedText = text.toLowerCase();
+      const index = lowercasedText.indexOf(query);
+      
+      if (index !== -1) {
+        const highlightedText = text.substring(0, index) +
+          '<strong>' +
+          text.substring(index, index + query.length) +
+          '</strong>' +
+          text.substring(index + query.length);
 
-        // Update the suggestions container
-        suggestionsContainer.innerHTML = suggestionsHTML;
+        return highlightedText;
+      }
+
+      return text;
     }
 
     function selectSuggestion(url) {
+        return null
         // Set the selected suggestion as the search input value
         document.getElementById('searchInput').value = url;
 

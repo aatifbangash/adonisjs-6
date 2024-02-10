@@ -1,7 +1,7 @@
 {
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('myForm');
-
+if(form){
     form.addEventListener('submit', function(event) {
         let valid = true;
 
@@ -58,6 +58,7 @@
             errorElement.textContent = '';
         });
     });
+  }
 });
   }
 
