@@ -6,7 +6,6 @@ import { HttpContext } from "@adonisjs/core/http";
 export default class HomeController {
 
     public async index({ view }: HttpContext) {
-        // const posts = await Post.find().sort({ _id: -1 }).limit(10);
         return view.render('pages/home')
     }
 
