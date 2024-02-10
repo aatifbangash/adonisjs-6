@@ -11,12 +11,12 @@ export default class HomeController {
     }
 
     public async create() {
-        const post = await Post.create({
-            title: 'test',
-            content: 'testing'
-        })
+        // const post = await Post.create({
+        //     title: 'test',
+        //     content: 'testing'
+        // })
 
-        return post
+        return { "data": "Item created" }
     }
 
     public async search({ request }: HttpContext) {
