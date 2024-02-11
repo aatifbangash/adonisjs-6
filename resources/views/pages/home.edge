@@ -872,7 +872,7 @@
                 matchingURLs = response.map(object => object.title);
                 var suggestionsHTML = matchingURLs.map(url => {
                   const highlightedText = highlightMatchingText(url, searchQuery);
-                  return `<div style="margin-left: 12px;" onclick="selectSuggestion('${url}')"><a href="#">${highlightedText}</a></div>`
+                  return `<div style="margin-left: 12px;"><a href="{{ route('/single')}}">${highlightedText}</a></div>`
                 }).join('');
                 suggestionsContainer.innerHTML = suggestionsHTML;
               }
@@ -899,6 +899,7 @@
     }
 
     function selectSuggestion(url) {
+
         return null
         // Set the selected suggestion as the search input value
         document.getElementById('searchInput').value = url;
